@@ -1,0 +1,9 @@
+# Folders
+/Bin/
+/Bin-int/
+/obj/
+/.vs/
+
+# Files
+*.csproj
+*.sln
