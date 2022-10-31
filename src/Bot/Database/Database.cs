@@ -104,7 +104,7 @@ namespace VoteBot
         public void AddPlaylist(string PlaylistLink)
         {
 
-            if (_spotifyAPI.CheckSpotifyPlaylist(PlaylistLink) == false) {
+            if (_spotifyAPI.CheckPlaylist(PlaylistLink) == false) {
                 Console.WriteLine("Playlist not found or none excistant!");
                 return;
             }
@@ -127,6 +127,68 @@ namespace VoteBot
             cnn.Open();
 
             string sql = $"DELETE FROM Playlists WHERE PlaylistLink = '{PlaylistLink}'";
+            SqlCommand command = new SqlCommand(sql, cnn);
+            command.ExecuteNonQuery();
+
+            cnn.Close();
+        }
+
+        public List<String> GetSongs()
+        {
+            SqlConnection cnn;
+            cnn = new SqlConnection(_connectionString);
+            cnn.Open();
+
+            List<string> output = new List<string>();
+            string sql = "SELECT SpotifyLink FROM SongsToVoteOn";
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            command = new SqlCommand(sql, cnn);
+            dataReader = command.ExecuteReader();
+
+            while (dataReader.Read())
+            {
+                output.Add(dataReader.GetValue(0).ToString());
+            }
+
+            cnn.Close();
+
+            return output;
+        }
+
+        public void AddSong(string SongLink)
+        {
+            if (_spotifyAPI.CheckTrack(SongLink) == false)
+            {
+                Console.WriteLine("Playlist not found or none excistant!");
+                return;
+            }
+
+            SqlConnection cnn;
+            cnn = new SqlConnection(_connectionString);
+            cnn.Open();
+
+            string sql = $"INSERT INTO SongsToVoteOn (SpotifyLink, VETO) VALUES ('{SongLink}', 0)";
+            SqlCommand command = new SqlCommand(sql, cnn);
+            command.ExecuteNonQuery();
+
+            cnn.Close();
+        }
+
+        public void RemoveSong(string SongLink)
+        {
+            if (_spotifyAPI.CheckTrack(SongLink) == false)
+            {
+                Console.WriteLine("Playlist not found or none excistant!");
+                return;
+            }
+
+            SqlConnection cnn;
+            cnn = new SqlConnection(_connectionString);
+            cnn.Open();
+
+            string sql = $"DELETE FROM SongsToVoteOn WHERE SpotifyLink = '{SongLink}'";
             SqlCommand command = new SqlCommand(sql, cnn);
             command.ExecuteNonQuery();
 

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace VoteBot
 {
@@ -17,11 +16,8 @@ namespace VoteBot
             var temp1 = playlistName.Remove(0, 34);
             var temp2 = temp1.Remove(22, temp1.Length - 22);
 
-            List<string> testDatabase = database.GetPlaylists();
-
             database.RemovePlaylist(temp2);
-            testDatabase = database.GetPlaylists();
-
+            List<string> testDatabase = database.GetPlaylists();
             foreach (string id in testDatabase)
             {
                 if (id.Contains(temp2))
@@ -30,6 +26,7 @@ namespace VoteBot
                     return;
                 }
             }
+            
             await command.RespondAsync("Playlist removed from roster!");
         }
     }

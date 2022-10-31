@@ -39,7 +39,6 @@ namespace VoteBot
                     return;
                 }
             }
-
             await command.RespondAsync("Something went wrong, playlist was not added to roster!");
         }
     }

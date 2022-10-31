@@ -58,6 +58,16 @@ namespace VoteBot
                     removePlaylistCommand.WithName("removeplaylist");
                     removePlaylistCommand.WithDescription("Removes a playlist where votes end!");
                     removePlaylistCommand.AddOption("playlist", ApplicationCommandOptionType.String, "The playlist to remove", true);
+
+                    var addVoteSong = new SlashCommandBuilder();
+                    addVoteSong.WithName("addvotesong");
+                    addVoteSong.WithDescription("Adds a song to the vote list!");
+                    addVoteSong.AddOption("song", ApplicationCommandOptionType.String, "Spotify Link to song", true);
+
+                    var removeVoteSong = new SlashCommandBuilder();
+                    removeVoteSong.WithName("removevotesong");
+                    removeVoteSong.WithDescription("Removes a song from the vote list!");
+                    removeVoteSong.AddOption("song", ApplicationCommandOptionType.String, "Spotify Link to song", true);
                     #endregion
                     // End of commands
 
@@ -70,6 +80,8 @@ namespace VoteBot
                         await guild.CreateApplicationCommandAsync(removeTrustedUserCommand.Build());
                         await guild.CreateApplicationCommandAsync(addPlaylistCommand.Build());
                         await guild.CreateApplicationCommandAsync(removePlaylistCommand.Build());
+                        await guild.CreateApplicationCommandAsync(addVoteSong.Build());
+                        await guild.CreateApplicationCommandAsync(removeVoteSong.Build());
                         #endregion
                         // End of commands
                     }
@@ -115,6 +127,14 @@ namespace VoteBot
                 if (command.Data.Name == "removeplaylist")
                 {
                     await RemovePlaylistCommand.Respons(command, _botDatabase);
+                }
+                if (command.Data.Name == "addvotesong")
+                {
+                    await AddVoteSong.Respons(command, _botDatabase);
+                }
+                if (command.Data.Name == "removevotesong")
+                {
+                    await RemoveVoteSong.Respons(command, _botDatabase);
                 }
                 // End of commands
                 #endregion

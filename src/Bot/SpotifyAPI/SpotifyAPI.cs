@@ -17,12 +17,23 @@ namespace VoteBot
             _SpotifyClient = new SpotifyClient(Environment.GetEnvironmentVariable("SKEY"));
         }
 
-        public bool CheckSpotifyPlaylist(string ListLink)
+        public bool CheckPlaylist(string ListLink)
         {
             var playList = _SpotifyClient.Playlists.Get(ListLink);
             if (playList == null)
             {
                 Console.WriteLine("Playlist not found!");
+                return false;
+            }
+            return true;
+        }
+
+        public bool CheckTrack(string TrackLink)
+        {
+            var track = _SpotifyClient.Tracks.Get(TrackLink);
+            if (track == null)
+            {
+                Console.WriteLine("Track not found!");
                 return false;
             }
             return true;
